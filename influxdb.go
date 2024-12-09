@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"time"
+	"os"
 
 	mapset "github.com/deckarep/golang-set/v2"
 	client "github.com/influxdata/influxdb1-client/v2"
@@ -27,7 +28,14 @@ func (s *InfluxDBSink) Init(cluster string, config *tomlConfig, _ int, _ map[str
 	var username, password string
 	var err error
 	ic := config.InfluxDB
-	url := "http://" + ic.Host + ":" + ic.Port
+	
+	// Verifica se a variável de ambiente https é igual a "true"
+    if os.Getenv("https") == "true" {
+        url = "https://" + ic.Host + ":" + ic.Port
+    } else {
+        url = "http://" + ic.Host + ":" + ic.Port
+    }
+	//url := "http://" + ic.Host + ":" + ic.Port
 
 	s.bpConfig = client.BatchPointsConfig{
 		Database:  ic.Database,
