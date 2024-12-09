@@ -30,10 +30,10 @@ func (s *InfluxDBSink) Init(cluster string, config *tomlConfig, _ int, _ map[str
 	ic := config.InfluxDB
 	
 	// Verifica se a variável de ambiente https é igual a "true"
-    if os.Getenv("https") == "true" {
-        url = "https://" + ic.Host + ":" + ic.Port
+    if os.Getenv("HTTPS") == "true" {
+        url := "https://" + ic.Host + ":" + ic.Port
     } else {
-        url = "http://" + ic.Host + ":" + ic.Port
+        url := "http://" + ic.Host + ":" + ic.Port
     }
 	//url := "http://" + ic.Host + ":" + ic.Port
 
