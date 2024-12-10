@@ -29,18 +29,15 @@ func (s *InfluxDBSink) Init(cluster string, config *tomlConfig, _ int, _ map[str
 	ic := config.InfluxDB
 	
 	// Verifica se a variável de ambiente https é igual a "true"
-	//url := ""
-    //if os.Getenv("HTTPS") == "true" {
-    //    url = "https://" + ic.Host + ":" + ic.Port
-    //} else {
-    //    url = "http://" + ic.Host + ":" + ic.Port
-    //}
-	//url := "http://" + ic.Host + ":" + ic.Port
 	url := ""
 	if ic.Protocol == "" {
 		url = "http://" + ic.Host + ":" + ic.Port	
 	} else {
-	    url = ic.Protocol + "://" + ic.Host + ":" + ic.Port
+		if ic.Protocol == "http" || ic.Protocol == "https" {
+	    	url = ic.Protocol + "://" + ic.Host + ":" + ic.Port
+		} else {
+            return fmt.Errorf("invalid protocol. Use either http or https.")
+        }
 	}
 
 	s.bpConfig = client.BatchPointsConfig{

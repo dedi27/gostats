@@ -27,12 +27,16 @@ func (s *InfluxDBv2Sink) Init(cluster string, config *tomlConfig, _ int, _ map[s
 	s.cluster = cluster
 	var err error
 	ic := config.InfluxDBv2
-	//url := "http://" + ic.Host + ":" + ic.Port
+	// Verifica se a variável de ambiente https é igual a "true"
 	url := ""
 	if ic.Protocol == "" {
 		url = "http://" + ic.Host + ":" + ic.Port	
 	} else {
-	    url = ic.Protocol + "://" + ic.Host + ":" + ic.Port
+		if ic.Protocol == "http" || ic.Protocol == "https" {
+	    	url = ic.Protocol + "://" + ic.Host + ":" + ic.Port
+		} else {
+            return fmt.Errorf("invalid protocol. Use either http or https.")
+        }
 	}
 
 	token := ic.Token
