@@ -49,6 +49,8 @@ type globalConfig struct {
 type influxDBConfig struct {
 	Host          string `toml:"host"`
 	Port          string `toml:"port"`
+	Protocol 	  string `toml:"protocol"`			// http or https protocol
+	SkipTLS 	  bool   `toml:"skip_tls"`			// skip TLS verification
 	Database      string `toml:"database"`
 	Authenticated bool   `toml:"authenticated"`
 	Username      string `toml:"username"`
@@ -56,11 +58,13 @@ type influxDBConfig struct {
 }
 
 type influxDBv2Config struct {
-	Host   string `toml:"host"`
-	Port   string `toml:"port"`
-	Org    string `toml:"org"`
-	Bucket string `toml:"bucket"`
-	Token  string `toml:"access_token"`
+	Host   			string `toml:"host"`
+	Port   			string `toml:"port"`
+	Protocol 	  	string `toml:"protocol"`			// http or https protocol
+	SkipTLS 	  	bool   `toml:"skip_tls"`			// skip TLS verification
+	Org    			string `toml:"org"`
+	Bucket 			string `toml:"bucket"`
+	Token  			string `toml:"access_token"`
 }
 
 type prometheusConfig struct {

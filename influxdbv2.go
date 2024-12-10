@@ -27,7 +27,13 @@ func (s *InfluxDBv2Sink) Init(cluster string, config *tomlConfig, _ int, _ map[s
 	s.cluster = cluster
 	var err error
 	ic := config.InfluxDBv2
-	url := "http://" + ic.Host + ":" + ic.Port
+	//url := "http://" + ic.Host + ":" + ic.Port
+	url := ""
+	if ic.Protocol == "" {
+		url = "http://" + ic.Host + ":" + ic.Port	
+	} else {
+	    url = ic.Protocol + "://" + ic.Host + ":" + ic.Port
+	}
 
 	token := ic.Token
 	if token == "" {

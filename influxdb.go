@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"time"
-	"os"
 
 	mapset "github.com/deckarep/golang-set/v2"
 	client "github.com/influxdata/influxdb1-client/v2"
@@ -30,12 +29,19 @@ func (s *InfluxDBSink) Init(cluster string, config *tomlConfig, _ int, _ map[str
 	ic := config.InfluxDB
 	
 	// Verifica se a variável de ambiente https é igual a "true"
-    if os.Getenv("HTTPS") == "true" {
-        url := "https://" + ic.Host + ":" + ic.Port
-    } else {
-        url := "http://" + ic.Host + ":" + ic.Port
-    }
+	//url := ""
+    //if os.Getenv("HTTPS") == "true" {
+    //    url = "https://" + ic.Host + ":" + ic.Port
+    //} else {
+    //    url = "http://" + ic.Host + ":" + ic.Port
+    //}
 	//url := "http://" + ic.Host + ":" + ic.Port
+	url := ""
+	if ic.Protocol == "" {
+		url = "http://" + ic.Host + ":" + ic.Port	
+	} else {
+	    url = ic.Protocol + "://" + ic.Host + ":" + ic.Port
+	}
 
 	s.bpConfig = client.BatchPointsConfig{
 		Database:  ic.Database,
@@ -55,6 +61,7 @@ func (s *InfluxDBSink) Init(cluster string, config *tomlConfig, _ int, _ map[str
 		Addr:     url,
 		Username: username,
 		Password: password,
+		InsecureSkipVerify: ic.SkipTLS,
 	})
 	if err != nil {
 		return fmt.Errorf("failed to create InfluxDB client - %v", err.Error())
