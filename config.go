@@ -49,8 +49,8 @@ type globalConfig struct {
 type influxDBConfig struct {
 	Host          string `toml:"host"`
 	Port          string `toml:"port"`
-	Protocol 	  string `toml:"protocol"`			// http or https protocol
-	SkipTLS 	  bool   `toml:"skip_tls"`			// skip TLS verification
+	Protocol      string `toml:"protocol"`			// http or https protocol
+	SkipTLS       bool   `toml:"skip_tls"`			// skip TLS verification
 	Database      string `toml:"database"`
 	Authenticated bool   `toml:"authenticated"`
 	Username      string `toml:"username"`
