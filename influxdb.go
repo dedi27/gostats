@@ -28,7 +28,7 @@ func (s *InfluxDBSink) Init(cluster string, config *tomlConfig, _ int, _ map[str
 	var err error
 	ic := config.InfluxDB
 	
-	// Verifica se a variável de ambiente https é igual a "true"
+	// Check http|https connection settings
 	url := ""
 	if ic.Protocol == "" {
 		url = "http://" + ic.Host + ":" + ic.Port	
